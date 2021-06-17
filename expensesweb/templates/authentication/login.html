@@ -1,0 +1,42 @@
+{% extends 'base_auth.html' %} 
+{% load static %}
+
+{% block content %}
+
+<div class="row" >
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="card mt-5">
+
+            <div class="card-body">
+                <div class="card-title py-4">
+                    <h4>Login</h4>
+                </div>
+                
+
+                <form action="{% url 'login' %}" method="POST"> {% csrf_token %}
+                    {% include 'partials/_messages.html' %}
+
+                    <div class="form-group pb-2">
+                        <input type="text" placeholder="username" class="form-control" name="username"
+                            id="usernameField" value=""/>
+
+                    <div class="form-group pb-2">
+                        <input type="password" placeholder="password" class="form-control"
+                            name="password" id="passwordField" />
+                           
+                        </div>
+                        <input type="submit" value="Login"  class="btn btn-block btn-primary btn-lg submit-btn" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+{% csrf_token %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+<script src="{% static 'js/register_copy.js' %}"></script>
+{% endblock content %}
