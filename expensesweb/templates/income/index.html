@@ -7,19 +7,20 @@
     <div class="col-md-9">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="">Expenses</a></li>
-          <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+          <li class="breadcrumb-item"><a href="">Income</a></li>
+          <li class="breadcrumb-item active" aria-current="page">My Incomes</li>
         </ol>
       </nav>
     </div>
     <div class="col-md-2">
-      <a href="{% url 'add_expenses' %}" class="btn btn-primary btn-sm">Add expenses</a>
+      <a href="{% url 'add_income' %}" class="btn btn-primary btn-sm">Add Income</a>
     </div>
   </div>
 
   <div class="container">
     {% include 'partials/_messages.html' %}
-    {% if expenses.count %}
+    {% if income.count %}
+
     <div class="row">
       <div class="col-md-8"></div>
       <div class="col-md-4">
@@ -35,7 +36,7 @@
         <thead>
           <tr>
             <th scope="col">Amount</th>
-            <th scope="col">Category</th>
+            <th scope="col">Source</th>
             <th scope="col">Description</th>
             <th scope="col">Date</th>
             <th></th>
@@ -43,13 +44,13 @@
         </thead>
 
         <tbody>
-          {% for expense in page_obj %}
+          {% for income in page_obj %}
           <tr>
-            <td>{{expense.amount}}</td>
-            <td>{{expense.category}}</td>
-            <td>{{expense.descriptions}}</td>
-            <td>{{expense.date}}</td>
-            <td><a href="{% url 'update_expense' expense.id %}" class="btn btn-secondary btn-sm">Update</a></td>
+            <td>{{income.amount}}</td>
+            <td>{{income.source}}</td>
+            <td>{{income.descriptions}}</td>
+            <td>{{income.date}}</td>
+            <td><a href="{% url 'update_income' income.id %}" class="btn btn-secondary btn-sm">Update</a></td>
             {% endfor %}
 
         </tbody>
@@ -61,7 +62,7 @@
         <thead>
           <tr>
             <th scope="col">Amount</th>
-            <th scope="col">Category</th>
+            <th scope="col">Source</th>
             <th scope="col">Description</th>
             <th scope="col">Date</th>
             <th></th>
@@ -98,6 +99,6 @@
     {% endif%}
   </div>
 </div>
-<script src="{% static 'js/searchExpenses.js' %}"></script> 
+<script src="{% static 'js/searchIncome.js' %}"></script> 
 
 {% endblock %}
