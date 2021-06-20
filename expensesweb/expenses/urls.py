@@ -8,5 +8,8 @@ urlpatterns= [
     path('update_expense/<int:id>', views.update_expense, name ='update_expense'),
     path('delete_expense/<int:id>', views.delete_expense, name="delete_expense"),
     path('search_expense', csrf_exempt(views.search_expense), name="search_expenses"),
+    path('expense_summary', views.expense_summary, name="expense_summary"),
+    path('status', views.status_view, name="status"),
+    path('export_exl', views.export_exl, name= 'export_exl'),
 
     ]

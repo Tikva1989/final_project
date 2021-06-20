@@ -1,5 +1,5 @@
 /* globals Chart:false, feather:false */
-
+window.onload = function() {
 (function () {
     'use strict'
   
@@ -51,4 +51,4 @@
       }
     })
   })()
-  
+}
