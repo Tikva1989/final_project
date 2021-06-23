@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {%load static %}
+{% load humanize %}
 
 {% block content %}
 <div class="container mt-4">
@@ -46,7 +47,7 @@
         <tbody>
           {% for income in page_obj %}
           <tr>
-            <td>{{income.amount}}</td>
+            <td>{{income.amount|intcomma}}</td>
             <td>{{income.source}}</td>
             <td>{{income.descriptions}}</td>
             <td>{{income.date}}</td>

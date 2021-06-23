@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {%load static %}
+{% load humanize %}
 
 {% block content %}
 <div class="container mt-4">
@@ -23,7 +24,7 @@
     <div class="row">
       <div class="col-md-8"></div>
       <div class="col-md-4">
-
+        
         <div class="form-group">
           <input type="text" name="" id="searchField" class="form-control" placeholder="Search">
         </div>
@@ -45,7 +46,7 @@
         <tbody>
           {% for expense in page_obj %}
           <tr>
-            <td>{{expense.amount}}</td>
+            <td>{{expense.amount |intcomma}}</td>
             <td>{{expense.category}}</td>
             <td>{{expense.descriptions}}</td>
             <td>{{expense.date}}</td>
@@ -74,27 +75,32 @@
 
       </table>
     </div>
-
-    <div class="pagination-container">
-      <div class="">
-        Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
+    <div class="row">
+      <div class="col-md-9">
+        <div class="pagination-container">
+          <div class="">
+            Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
+          </div>
+          <ul class="pagination align-right float-right mr-auto">
+            {% if page_obj.has_previous %}
+            <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link"
+                href="?page=1">&laquo; 1</a></li>
+            <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+    
+            {% if page_obj.has_next %}
+            <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            <li class="page-item"> <a class="page-link"
+                href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
-      <ul class="pagination align-right float-right mr-auto">
-        {% if page_obj.has_previous %}
-        <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link"
-            href="?page=1">&laquo; 1</a></li>
-        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-        {% endif %}
-
-        {% if page_obj.has_next %}
-        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-        <li class="page-item"> <a class="page-link"
-            href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
-        {% endif %}
-
-
-      </ul>
+      <div class="col-md-2 align-left float-left mt-3 ">
+        <a href="{% url 'export_exl' %}" class="btn btn-success btn-sm">Export to Excel</a>
+      </div>
     </div>
+    
     {% endif%}
   </div>
 </div>

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
-
+import datetime
 
 
 def search_income(request):
@@ -113,6 +113,37 @@ def delete_income(request, id):
     income.delete()
     messages.success(request, 'Income has been deleted')
     return redirect('income')
+
+
+def income_summary(request):
+    today_date = datetime.date.today()
+    three_months_ago = today_date- datetime.timedelta(days=30*3)
+    incomes = Income.objects.filter(owner=request.user,
+                                    date__gte=three_months_ago, date__lte=today_date)
+    
+    finalrep = {}
+
+    def get_source(income):
+        return income.source
+    sources_list = list(set(map(get_source, incomes)))
+
+    def get_income_source_amount(source):
+        amount = 0
+        filtered_by_source= incomes.filter(source=source)
+
+        for item in filtered_by_source:
+            amount+=item.amount
+        return amount
+    
+    for e in incomes:
+        for c in sources_list:
+            finalrep[c]= get_income_source_amount(c)
+
+    return JsonResponse({'income_source_data' : finalrep}, safe=False)
+
+
+def status_view(request):
+    return render(request, 'income/status.html')
 
 
 
