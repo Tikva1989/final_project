@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from django.contrib import messages
+import django_heroku
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ted%6dec9ftjjd0c#u@ocizj9(%g4w&!0&y_rwjv@^m1g_#9e3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['floating-crag-40475.herokuapp.com']
 
 
 # Application definition
@@ -44,7 +46,18 @@ INSTALLED_APPS = [
     'usersettings',
     'income',
     'django.contrib.humanize',
+    'storages',
 ]
+
+AWS_STORAGE_BUCKET_NAME = 'myapp-expenses-heroku'
+AWS_S3_REGION_NAME = 'US East (N. Virginia) us-east- 1'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS__SECRET_ACCESS_KEY = os.environ.get('AWS__SECRET_ACCESS_KEY')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_DEFUALT_ACL = None
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE= 'custom_storages.StaticStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,13 +93,16 @@ WSGI_APPLICATION = 'expensesweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'incomeexpensesdb',
-        'USER' : 'postgres',
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
+        'NAME': 'dctisnh4226t8i',
+        'USER' : 'toudbutrkzqnfe',
+        'PASSWORD': '05f2a7b743202f99dfb0bc8d5d2eaef6f2759c378666a9299dac0977233d8387',
+        # 'HOST': os.getenv('DB_HOST'),
+        'HOST':'ec2-52-45-179-101.compute-1.amazonaws.com',
+        'PORT' : 5432,
     }
 }
 
@@ -150,3 +166,4 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'tesaavraham@gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+django_heroku.settings(locals())
